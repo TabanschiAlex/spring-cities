@@ -8,35 +8,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @GetMapping()
-    public ResponseEntity getAllUsers() {
-        try {
-            return ResponseEntity.ok("A");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
-        }
+  @GetMapping()
+  public ResponseEntity getAllUsers() {
+    try {
+      return ResponseEntity.ok("A");
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body("Error");
     }
-
-    /*@GetMapping("/{id}")
-    public ResponseEntity getUserById() {
-        return "Yser";
-    }*/
-/*
-    @PostMapping
-    public ResponseEntity createUser() {
-        return "Created";
-    }
-
-    @PutMapping
-    public ResponseEntity editUser() {
-        return "edited";
-    }
-
-    @DeleteMapping
-    public ResponseEntity deleteUser() {
-        return "deleted";
-    }*/
+  }
 }

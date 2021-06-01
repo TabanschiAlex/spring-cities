@@ -4,11 +4,12 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class City {
+public class City implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   private String name;
@@ -16,4 +17,28 @@ public class City {
   @ManyToOne
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Region region;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Region getRegion() {
+    return region;
+  }
+
+  public void setRegion(Region region) {
+    this.region = region;
+  }
 }
