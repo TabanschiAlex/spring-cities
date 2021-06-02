@@ -1,4 +1,4 @@
-package com.example.springfirstapp.exception;
+package com.example.springfirstapp.exception.user;
 
 public class UserNotFoundException extends Exception {
   public UserNotFoundException() {

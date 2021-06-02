@@ -1,7 +1,7 @@
 package com.example.springfirstapp.repository;
 
 import com.example.springfirstapp.entity.City;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CityRepository extends CrudRepository<City, Integer> {
+public interface CityRepository extends PagingAndSortingRepository<City, Integer> {
 }

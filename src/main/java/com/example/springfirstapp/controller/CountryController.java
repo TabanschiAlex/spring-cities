@@ -13,9 +13,9 @@ public class CountryController {
   private CountryService countryService;
 
   @GetMapping
-  public ResponseEntity<?> getCountries() {
+  public ResponseEntity<?> getCountries(@RequestParam Integer page, String sort) {
     try {
-      return ResponseEntity.ok(countryService.getCountries());
+      return ResponseEntity.ok(countryService.getCountries(page, sort));
     } catch (Exception e) {
       return ResponseEntity.unprocessableEntity().body("Error");
     }

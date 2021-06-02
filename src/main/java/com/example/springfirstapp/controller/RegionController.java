@@ -13,9 +13,9 @@ public class RegionController {
   private RegionService regionService;
 
   @GetMapping
-  public ResponseEntity<?> getRegions() {
+  public ResponseEntity<?> getRegions(@RequestParam Integer page, String sort) {
     try {
-      return ResponseEntity.ok(regionService.getRegions());
+      return ResponseEntity.ok(regionService.getRegions(page, sort));
     } catch (Exception e) {
       return ResponseEntity.unprocessableEntity().body("Error");
     }

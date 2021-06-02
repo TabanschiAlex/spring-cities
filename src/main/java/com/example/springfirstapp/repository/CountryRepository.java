@@ -1,9 +1,7 @@
 package com.example.springfirstapp.repository;
 
 import com.example.springfirstapp.entity.Country;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-
-public interface CountryRepository extends CrudRepository<Country, Integer> {
+public interface CountryRepository extends PagingAndSortingRepository<Country, Integer> {
 }

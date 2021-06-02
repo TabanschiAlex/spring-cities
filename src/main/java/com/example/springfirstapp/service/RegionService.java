@@ -3,8 +3,12 @@ package com.example.springfirstapp.service;
 import com.example.springfirstapp.entity.Region;
 import com.example.springfirstapp.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,8 +16,9 @@ public class RegionService {
   @Autowired
   public RegionRepository regionRepository;
 
-  public Iterable<Region> getRegions() {
-    return regionRepository.findAll();
+  public List<Region> getRegions(Integer page, String sort) {
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
+    return regionRepository.findAll(pageable).toList();
   }
 
   public Optional<Region> getRegionById(Integer id) {

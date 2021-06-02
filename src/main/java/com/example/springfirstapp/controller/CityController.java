@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/city")
 public class CityController {
@@ -13,9 +14,9 @@ public class CityController {
   private CityService cityService;
 
   @GetMapping
-  public ResponseEntity<?> getCountries() {
+  public ResponseEntity<?> getCountries(@RequestParam Integer page, String sort) {
     try {
-      return ResponseEntity.ok(cityService.getCities());
+      return ResponseEntity.ok(cityService.getCities(page, sort));
     } catch (Exception e) {
       return ResponseEntity.unprocessableEntity().body("Error");
     }
