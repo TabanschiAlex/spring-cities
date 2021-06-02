@@ -7,18 +7,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/country")
+@RequestMapping("/countries")
 public class CountryController {
   @Autowired
   private CountryService countryService;
 
   @GetMapping
-  public ResponseEntity<?> index() {
+  public ResponseEntity<?> getCountries() {
     try {
-      System.out.println(countryService.getCountries());
       return ResponseEntity.ok(countryService.getCountries());
     } catch (Exception e) {
       return ResponseEntity.unprocessableEntity().body("Error");
+    }
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getCountryById(@PathVariable Integer id) {
+    try {
+      return ResponseEntity.ok(countryService.getCountryById(id));
+    } catch (Exception e) {
+      return ResponseEntity.unprocessableEntity().body(e.getMessage());
     }
   }
 
@@ -27,7 +35,7 @@ public class CountryController {
     try {
       return ResponseEntity.ok(countryService.addCountry(country));
     } catch (Exception e) {
-      return ResponseEntity.unprocessableEntity().body("Error");
+      return ResponseEntity.unprocessableEntity().body(e.getMessage());
     }
   }
 
@@ -40,4 +48,13 @@ public class CountryController {
     }
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteCountry(@PathVariable Integer id) {
+    try {
+      countryService.deleteCountry(id);
+      return ResponseEntity.ok("Successfully deleted");
+    } catch (Exception e) {
+      return ResponseEntity.unprocessableEntity().body(e.getMessage());
+    }
+  }
 }
