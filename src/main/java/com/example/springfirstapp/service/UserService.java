@@ -34,21 +34,19 @@ public class UserService {
       User user = new User();
       user.setRole(role);
       user.setPassword(passwordEncoder.encode(authorizationDto.getPassword()));
-      user.setEmail(authorizationDto.getPassword());
+      user.setEmail(authorizationDto.getEmail());
       userRepository.save(user);
 
       return jwtProvider.generateToken(user.getEmail());
     } catch (Exception e) {
       throw e;
     }
-
   }
 
   public String login(AuthorizationDto authorizationDto) throws UserNotFoundException {
     try {
-      User user = userRepository.findByEmail(authorizationDto.getEmail());
-      System.out.println(user);
-      boolean isMatch = passwordEncoder.matches(authorizationDto.getPassword(), user.getPassword());
+      User user = userRepository.queryUserByEmail(authorizationDto.getEmail());
+      boolean isMatch = passwordEncoder.matches(authorizationDto.getPassword(), user.getEmail());
 
       if (!isMatch) {
         throw new UserNotFoundException();
@@ -65,7 +63,7 @@ public class UserService {
   }
 
   public User findByEmail(String email) {
-    return userRepository.findByEmail(email);
+    return userRepository.queryUserByEmail(email);
   }
 
   public Optional<User> findById(Integer id) {
