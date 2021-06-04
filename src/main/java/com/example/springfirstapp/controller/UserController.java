@@ -1,7 +1,6 @@
 package com.example.springfirstapp.controller;
 
 import com.example.springfirstapp.dto.AuthorizationDto;
-import com.example.springfirstapp.entity.User;
 import com.example.springfirstapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
