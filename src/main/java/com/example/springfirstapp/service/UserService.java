@@ -7,8 +7,8 @@ import com.example.springfirstapp.entity.User;
 import com.example.springfirstapp.exception.user.UserNotFoundException;
 import com.example.springfirstapp.repository.RoleRepository;
 import com.example.springfirstapp.repository.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,15 +25,12 @@ public class UserService {
   @Autowired
   private JwtProvider jwtProvider;
 
-  @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
-
   public String register(AuthorizationDto authorizationDto) {
     try {
       Role role = roleRepository.findByName("user");
       User user = new User();
       user.setRole(role);
-      user.setPassword(passwordEncoder.encode(authorizationDto.getPassword()));
+      user.setPassword(BCrypt.hashpw(authorizationDto.getPassword(), BCrypt.gensalt()));
       user.setEmail(authorizationDto.getEmail());
       userRepository.save(user);
 
@@ -46,7 +43,7 @@ public class UserService {
   public String login(AuthorizationDto authorizationDto) throws UserNotFoundException {
     try {
       User user = userRepository.queryUserByEmail(authorizationDto.getEmail());
-      boolean isMatch = passwordEncoder.matches(authorizationDto.getPassword(), user.getEmail());
+      boolean isMatch = BCrypt.checkpw(authorizationDto.getPassword(), user.getPassword());
 
       if (!isMatch) {
         throw new UserNotFoundException();
