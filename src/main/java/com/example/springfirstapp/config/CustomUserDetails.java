@@ -7,17 +7,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
   private String email;
   private String password;
+  private String role;
   private Collection<? extends GrantedAuthority> grantedAuthorities;
 
   public static CustomUserDetails fromUserEntityToCustomUserDetails(User user) {
     CustomUserDetails customUserDetails = new CustomUserDetails();
     customUserDetails.email = user.getEmail();
     customUserDetails.password = user.getPassword();
+    customUserDetails.role = user.getRole().getName();
     customUserDetails.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()));
+
     return customUserDetails;
   }
 
@@ -34,6 +38,10 @@ public class CustomUserDetails implements UserDetails {
   @Override
   public String getUsername() {
     return email;
+  }
+
+  public String getRole() {
+    return role;
   }
 
   @Override

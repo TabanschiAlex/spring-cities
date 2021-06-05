@@ -1,7 +1,7 @@
-package com.example.springfirstapp.config;
+package com.example.springfirstapp.service;
 
+import com.example.springfirstapp.config.CustomUserDetails;
 import com.example.springfirstapp.entity.User;
-import com.example.springfirstapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
