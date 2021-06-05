@@ -44,6 +44,10 @@ public class CustomUserDetails implements UserDetails {
     return role;
   }
 
+  public void setRole(String role) {
+    this.role = role;
+  }
+
   @Override
   public boolean isAccountNonExpired() {
     return true;

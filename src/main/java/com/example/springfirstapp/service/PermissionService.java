@@ -21,7 +21,7 @@ public class PermissionService {
     List<Permission> permissions = getAllPermissions();
 
     for (Permission permission : permissions) {
-      http.authorizeRequests().antMatchers(permission.getPermission()).hasRole(permission.getRole().getName());
+      http.authorizeRequests().antMatchers(permission.getPermission()).hasAuthority(permission.getRole().getName());
     }
 
     http.authorizeRequests().antMatchers("/**").permitAll();
