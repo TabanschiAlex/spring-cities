@@ -25,7 +25,6 @@ public class PermissionService {
     }
 
     http.authorizeRequests().antMatchers("/**").permitAll();
-
     return http;
   }
 }

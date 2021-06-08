@@ -31,10 +31,10 @@ public class CountryService {
 
   public Country updateCountry(Country country) {
     Country data = countryRepository.findById(country.getId()).get();
-    System.out.println(data);
     data.setName(country.getName());
     data.setCode(country.getCode());
     countryRepository.save(data);
+
     return countryRepository.save(country);
   }
 

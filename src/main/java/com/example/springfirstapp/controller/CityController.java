@@ -14,11 +14,20 @@ public class CityController {
   private CityService cityService;
 
   @GetMapping
-  public ResponseEntity<?> getCountries(@RequestParam Integer page, String sort) {
+  public ResponseEntity<?> getCities(@RequestParam Integer page, String sort) {
     try {
       return ResponseEntity.ok(cityService.getCities(page, sort));
     } catch (Exception e) {
-      return ResponseEntity.unprocessableEntity().body("Error");
+      return ResponseEntity.unprocessableEntity().body(e.getMessage());
+    }
+  }
+
+  @GetMapping("/region")
+  public ResponseEntity<?> getCitiesByRegion(@RequestParam Integer page, String sort, String regionName) {
+    try {
+      return ResponseEntity.ok(cityService.getCitiesByRegion(page, sort, regionName));
+    } catch (Exception e) {
+      return ResponseEntity.unprocessableEntity().body(e.getMessage());
     }
   }
 

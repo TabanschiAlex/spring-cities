@@ -1,7 +1,10 @@
 package com.example.springfirstapp.service;
 
 import com.example.springfirstapp.entity.City;
+import com.example.springfirstapp.entity.Region;
 import com.example.springfirstapp.repository.CityRepository;
+import com.example.springfirstapp.repository.RegionRepository;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +19,19 @@ public class CityService {
   @Autowired
   private CityRepository cityRepository;
 
+  @Autowired
+  private RegionRepository regionRepository;
+
   public List<City> getCities(Integer page, String sort) {
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
     return cityRepository.findAll(pageable).toList();
+  }
+
+  public List<City> getCitiesByRegion(Integer page, String sort, String regionName) {
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
+    Region region = regionRepository.findByName(regionName);
+
+    return cityRepository.findAllByRegion(region, pageable).toList();
   }
 
   public Optional<City> getCityById(Integer id) {
@@ -33,8 +46,8 @@ public class CityService {
     City data = cityRepository.findById(city.getId()).get();
     data.setName(city.getName());
     data.setRegion(city.getRegion());
-    cityRepository.save(data);
-    return cityRepository.save(city);
+
+    return cityRepository.save(data);
   }
 
   public void deleteCountry(Integer id) {
