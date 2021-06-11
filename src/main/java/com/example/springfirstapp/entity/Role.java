@@ -13,6 +13,12 @@ public class Role implements Serializable {
   @Column(length = 20, unique = true, nullable = false)
   private String name;
 
+  public Role() {}
+
+  public Role(String name) {
+    this.name = name;
+  }
+
   public Integer getId() {
     return id;
   }

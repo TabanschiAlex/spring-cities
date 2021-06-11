@@ -5,6 +5,7 @@ import com.example.springfirstapp.entity.Region;
 import com.example.springfirstapp.repository.CityRepository;
 import com.example.springfirstapp.repository.RegionRepository;
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,9 +28,13 @@ public class CityService {
     return cityRepository.findAll(pageable).toList();
   }
 
-  public List<City> getCitiesByRegion(Integer page, String sort, String regionName) {
+  public List<City> getCitiesByRegion(Integer page, String sort, String regionName, Optional<List<String>> name) {
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
     Region region = regionRepository.findByName(regionName);
+
+    if (name.isPresent()) {
+      return cityRepository.findAllByRegionAndNameIsIn(region, pageable, name.get()).toList();
+    }
 
     return cityRepository.findAllByRegion(region, pageable).toList();
   }

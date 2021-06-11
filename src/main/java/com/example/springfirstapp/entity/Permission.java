@@ -19,6 +19,13 @@ public class Permission implements Serializable {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Role role;
 
+  public Permission() {}
+
+  public Permission(String permission, Role role) {
+    this.permission = permission;
+    this.role = role;
+  }
+
   public Integer getId() {
     return id;
   }

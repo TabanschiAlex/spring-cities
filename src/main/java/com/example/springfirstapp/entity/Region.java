@@ -20,6 +20,13 @@ public class Region implements Serializable {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Country country;
 
+  public Region() {}
+
+  public Region(String name, Country country) {
+    this.name = name;
+    this.country = country;
+  }
+
   public Integer getId() {
     return id;
   }

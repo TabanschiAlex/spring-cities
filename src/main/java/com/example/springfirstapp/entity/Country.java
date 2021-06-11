@@ -16,6 +16,13 @@ public class Country implements Serializable {
   @Column(nullable = false, unique = true, length = 3)
   private String code;
 
+  public Country() {}
+
+  public Country(String name, String code) {
+    this.name = name;
+    this.code = code;
+  }
+
   public Integer getId() {
     return id;
   }

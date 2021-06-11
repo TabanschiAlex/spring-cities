@@ -1,6 +1,8 @@
 package com.example.springfirstapp.service;
 
+import com.example.springfirstapp.entity.Country;
 import com.example.springfirstapp.entity.Region;
+import com.example.springfirstapp.repository.CountryRepository;
 import com.example.springfirstapp.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +16,30 @@ import java.util.Optional;
 @Service
 public class RegionService {
   @Autowired
-  public RegionRepository regionRepository;
+  private RegionRepository regionRepository;
+
+  @Autowired
+  private CountryRepository countryRepository;
 
   public List<Region> getRegions(Integer page, String sort) {
     Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
     return regionRepository.findAll(pageable).toList();
+  }
+
+  public List<Region> getRegionsByCountry(
+          Integer page,
+          String sort,
+          String countryName,
+          Optional<List<String>> name
+  ) {
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
+    Country country = countryRepository.findByName(countryName);
+
+    if (name.isPresent()) {
+      return regionRepository.findAllByCountryAndNameIsIn(country, pageable, name.get()).toList();
+    }
+
+    return regionRepository.findAllByCountry(country, pageable).toList();
   }
 
   public Optional<Region> getRegionById(Integer id) {

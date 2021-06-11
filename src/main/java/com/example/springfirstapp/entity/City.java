@@ -19,6 +19,13 @@ public class City implements Serializable {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Region region;
 
+  public City() {}
+
+  public City(String name, Region region) {
+    this.name = name;
+    this.region = region;
+  }
+
   public Integer getId() {
     return id;
   }

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/regions")
 public class RegionController {
@@ -18,6 +21,21 @@ public class RegionController {
       return ResponseEntity.ok(regionService.getRegions(page, sort));
     } catch (Exception e) {
       return ResponseEntity.unprocessableEntity().body("Error");
+    }
+  }
+
+  @GetMapping("/countries")
+  public ResponseEntity<?> getRegionsByCountry(
+          @RequestParam
+                  Integer page,
+                  String sort,
+                  String countryName,
+                  Optional<List<String>> name
+  ) {
+    try {
+      return ResponseEntity.ok(regionService.getRegionsByCountry(page, sort, countryName, name));
+    } catch (Exception e) {
+      return ResponseEntity.unprocessableEntity().body(e.getMessage());
     }
   }
 

@@ -23,6 +23,14 @@ public class User implements Serializable {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Role role;
 
+  public User() {}
+
+  public User(String email, String password, Role role) {
+    this.email = email;
+    this.password = password;
+    this.role = role;
+  }
+
   public Integer getId() {
     return id;
   }
