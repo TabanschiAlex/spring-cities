@@ -12,5 +12,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Integer
     User queryUserByEmail(@Param("email") String email);
 
     @NotNull
+    @Override
     Optional<User> findById(@NotNull Integer id);
 }
