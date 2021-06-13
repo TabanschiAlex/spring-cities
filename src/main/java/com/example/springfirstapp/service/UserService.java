@@ -16,54 +16,46 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-  @Autowired
-  private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-  @Autowired
-  private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-  @Autowired
-  private JwtProvider jwtProvider;
+    @Autowired
+    private JwtProvider jwtProvider;
 
-  public String register(AuthorizationDto authorizationDto) {
-    try {
-      Role role = roleRepository.findByName("user");
-      User user = new User();
-      user.setRole(role);
-      user.setPassword(BCrypt.hashpw(authorizationDto.getPassword(), BCrypt.gensalt()));
-      user.setEmail(authorizationDto.getEmail());
-      userRepository.save(user);
+    public String register(AuthorizationDto authorizationDto) {
+        Role role = roleRepository.findByName("user");
+        User user = new User();
+        user.setRole(role);
+        user.setPassword(BCrypt.hashpw(authorizationDto.getPassword(), BCrypt.gensalt()));
+        user.setEmail(authorizationDto.getEmail());
+        userRepository.save(user);
 
-      return jwtProvider.generateToken(user.getEmail());
-    } catch (Exception e) {
-      throw e;
+        return jwtProvider.generateToken(user.getEmail());
     }
-  }
 
-  public String login(AuthorizationDto authorizationDto) throws UserNotFoundException {
-    try {
-      User user = userRepository.queryUserByEmail(authorizationDto.getEmail());
-      boolean isMatch = BCrypt.checkpw(authorizationDto.getPassword(), user.getPassword());
+    public String login(AuthorizationDto authorizationDto) throws UserNotFoundException {
+        User user = userRepository.queryUserByEmail(authorizationDto.getEmail());
+        boolean isMatch = BCrypt.checkpw(authorizationDto.getPassword(), user.getPassword());
 
-      if (!isMatch) {
-        throw new UserNotFoundException();
-      }
+        if (!isMatch) {
+            throw new UserNotFoundException();
+        }
 
-      return jwtProvider.generateToken(user.getEmail());
-    } catch (Exception e) {
-      throw e;
+        return jwtProvider.generateToken(user.getEmail());
     }
-  }
 
-  public List<User> getAllUsers() {
-    return (List<User>) userRepository.findAll();
-  }
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 
-  public User findByEmail(String email) {
-    return userRepository.queryUserByEmail(email);
-  }
+    public User findByEmail(String email) {
+        return userRepository.queryUserByEmail(email);
+    }
 
-  public Optional<User> findById(Integer id) {
-    return userRepository.findById(id);
-  }
+    public Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
+    }
 }

@@ -12,32 +12,32 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
-  @Value("$(jwt.secret)")
-  private String jwtSecret;
+    @Value("$(jwt.secret)")
+    private String jwtSecret;
 
-  public String generateToken(String login) {
-    Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    public String generateToken(String login) {
+        Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-    return Jwts.builder()
-            .setSubject(login)
-            .setExpiration(date)
-            .signWith(SignatureAlgorithm.HS512, jwtSecret)
-            .compact();
-  }
-
-  public boolean validateToken(String token) {
-    try {
-      Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-      return true;
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
+        return Jwts.builder()
+                .setSubject(login)
+                .setExpiration(date)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
     }
 
-    return false;
-  }
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-  public String getLoginFromToken(String token) {
-    Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-    return claims.getSubject();
-  }
+        return false;
+    }
+
+    public String getLoginFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
 }

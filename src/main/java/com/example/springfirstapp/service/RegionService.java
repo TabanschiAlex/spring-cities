@@ -5,62 +5,64 @@ import com.example.springfirstapp.entity.Region;
 import com.example.springfirstapp.repository.CountryRepository;
 import com.example.springfirstapp.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RegionService {
-  @Autowired
-  private RegionRepository regionRepository;
+    @Autowired
+    private RegionRepository regionRepository;
 
-  @Autowired
-  private CountryRepository countryRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
-  public List<Region> getRegions(Integer page, String sort) {
-    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
-    return regionRepository.findAll(pageable).toList();
-  }
-
-  public List<Region> getRegionsByCountry(
-          Integer page,
-          String sort,
-          String countryName,
-          Optional<List<String>> name
-  ) {
-    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
-    Country country = countryRepository.findByName(countryName);
-
-    if (name.isPresent()) {
-      return regionRepository.findAllByCountryAndNameIsIn(country, pageable, name.get()).toList();
+    public List<Region> getRegions(Integer page, String sort) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
+        return regionRepository.findAll(pageable).toList();
     }
 
-    return regionRepository.findAllByCountry(country, pageable).toList();
-  }
+    public Page<Region> getRegionsByCountry(
+            Integer page,
+            String sort,
+            String countryName,
+            String name
+    ) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
+        Country country = countryRepository.findByName(countryName);
 
-  public Optional<Region> getRegionById(Integer id) {
-    return regionRepository.findById(id);
-  }
+        if (!name.equals("")) {
+            return regionRepository.findAllByCountryAndNameIsIn(country, pageable, Arrays.asList(name.split(",")));
+        }
 
-  public Region addRegion(Region region) {
-    return regionRepository.save(region);
-  }
+        return regionRepository.findAllByCountry(country, pageable);
+    }
 
-  public Region updateRegion(Region region) {
-    Region data = regionRepository.findById(region.getId()).get();
-    System.out.println(data);
-    data.setName(region.getName());
-    data.setCountry(region.getCountry());
-    regionRepository.save(data);
+    public Optional<Region> getRegionById(Integer id) {
+        return regionRepository.findById(id);
+    }
 
-    return regionRepository.save(region);
-  }
+    public Region addRegion(Region region) {
+        return regionRepository.save(region);
+    }
 
-  public void deleteRegion(Integer id) {
-    regionRepository.deleteById(id);
-  }
+    public Region updateRegion(Region region) {
+        Region data = regionRepository.findById(region.getId()).get();
+        System.out.println(data);
+        data.setName(region.getName());
+        data.setCountry(region.getCountry());
+        regionRepository.save(data);
+
+        return regionRepository.save(region);
+    }
+
+    public void deleteRegion(Integer id) {
+        regionRepository.deleteById(id);
+    }
 }

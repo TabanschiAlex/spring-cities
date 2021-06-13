@@ -13,32 +13,32 @@ import java.util.Optional;
 
 @Service
 public class CountryService {
-  @Autowired
-  public CountryRepository countryRepository;
+    @Autowired
+    public CountryRepository countryRepository;
 
-  public List<Country> getCountries(Integer page, String sort) {
-    Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
-    return countryRepository.findAll(pageable).toList();
-  }
+    public List<Country> getCountries(Integer page, String sort) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
+        return countryRepository.findAll(pageable).toList();
+    }
 
-  public Optional<Country> getCountryById(Integer id) {
-    return countryRepository.findById(id);
-  }
+    public Optional<Country> getCountryById(Integer id) {
+        return countryRepository.findById(id);
+    }
 
-  public Country addCountry(Country country) {
-    return countryRepository.save(country);
-  }
+    public Country addCountry(Country country) {
+        return countryRepository.save(country);
+    }
 
-  public Country updateCountry(Country country) {
-    Country data = countryRepository.findById(country.getId()).get();
-    data.setName(country.getName());
-    data.setCode(country.getCode());
-    countryRepository.save(data);
+    public Country updateCountry(Country country) {
+        Country data = countryRepository.findById(country.getId()).get();
+        data.setName(country.getName());
+        data.setCode(country.getCode());
+        countryRepository.save(data);
 
-    return countryRepository.save(country);
-  }
+        return countryRepository.save(country);
+    }
 
-  public void deleteCountry(Integer id) {
-    countryRepository.deleteById(id);
-  }
+    public void deleteCountry(Integer id) {
+        countryRepository.deleteById(id);
+    }
 }

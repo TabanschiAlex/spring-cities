@@ -14,21 +14,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  private JwtFilter jwtFilter;
+    @Autowired
+    private JwtFilter jwtFilter;
 
-  @Autowired
-  private PermissionService permissionService;
+    @Autowired
+    private PermissionService permissionService;
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http = permissionService.generatePermissions(http);
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http = permissionService.generatePermissions(http);
 
-    http
-            .httpBasic().disable()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-  }
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    }
 }

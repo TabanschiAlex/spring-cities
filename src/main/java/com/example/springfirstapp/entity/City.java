@@ -8,45 +8,46 @@ import java.io.Serializable;
 
 @Entity
 public class City implements Serializable {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  @Column(length = 50, nullable = false)
-  private String name;
+    @Column(length = 50, nullable = false)
+    private String name;
 
-  @ManyToOne
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  private Region region;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Region region;
 
-  public City() {}
+    public City() {
+    }
 
-  public City(String name, Region region) {
-    this.name = name;
-    this.region = region;
-  }
+    public City(String name, Region region) {
+        this.name = name;
+        this.region = region;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public Region getRegion() {
-    return region;
-  }
+    public Region getRegion() {
+        return region;
+    }
 
-  public void setRegion(Region region) {
-    this.region = region;
-  }
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 }

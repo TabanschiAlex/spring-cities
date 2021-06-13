@@ -6,11 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Collection;
 
 public interface CityRepository extends PagingAndSortingRepository<City, Integer> {
-  Page<City> findAllByRegion(Region region, Pageable pageable);
+    Page<City> findAllByRegion(Region region, Pageable pageable);
 
-  Page<City> findAllByRegionAndNameIsIn(Region region, Pageable pageable, List<String> name);
+    Page<City> findAllByRegionAndNameIsIn(Region region, Pageable pageable, Collection<String> name);
 }

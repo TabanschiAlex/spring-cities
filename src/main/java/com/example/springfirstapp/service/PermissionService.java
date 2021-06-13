@@ -10,21 +10,21 @@ import java.util.List;
 
 @Service
 public class PermissionService {
-  @Autowired
-  private PermissionRepository permissionRepository;
+    @Autowired
+    private PermissionRepository permissionRepository;
 
-  public List<Permission> getAllPermissions() {
-    return (List<Permission>) permissionRepository.findAll();
-  }
-
-  public HttpSecurity generatePermissions(HttpSecurity http) throws Exception {
-    List<Permission> permissions = getAllPermissions();
-
-    for (Permission permission : permissions) {
-      http.authorizeRequests().antMatchers(permission.getPermission()).hasAuthority(permission.getRole().getName());
+    public List<Permission> getAllPermissions() {
+        return (List<Permission>) permissionRepository.findAll();
     }
 
-    http.authorizeRequests().antMatchers("/**").permitAll();
-    return http;
-  }
+    public HttpSecurity generatePermissions(HttpSecurity http) throws Exception {
+        List<Permission> permissions = getAllPermissions();
+
+        for (Permission permission : permissions) {
+            http.authorizeRequests().antMatchers(permission.getPermission()).hasAuthority(permission.getRole().getName());
+        }
+
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        return http;
+    }
 }
