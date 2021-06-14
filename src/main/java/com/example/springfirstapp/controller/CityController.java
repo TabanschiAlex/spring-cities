@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/city")
 public class CityController {
@@ -25,11 +28,11 @@ public class CityController {
     public ResponseEntity<?> getCitiesByRegion(
             @RequestParam Integer page,
             @RequestParam String sort,
-            @RequestParam String regionName,
-            @RequestParam(required = false) String name
+            @RequestParam(required = false) Collection<Integer> regionsId,
+            @RequestParam(required = false) Collection<String> cityNames
     ) {
         try {
-            return ResponseEntity.ok(cityService.getCitiesByRegion(page, sort, regionName, name));
+            return ResponseEntity.ok(cityService.getCitiesByRegion(page, sort, regionsId, cityNames));
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }

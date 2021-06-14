@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,16 +29,15 @@ public class CityService {
         return cityRepository.findAll(pageable).toList();
     }
 
-    public Page<City> getCitiesByRegion(Integer page, String sort, String regionName, String name) {
+    public Page<City> getCitiesByRegion(Integer page, String sort, Collection<Integer> regionsName, Collection<String> cityNames) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
-        Region region = regionRepository.findByName(regionName);
+        Collection<Region> regions = regionRepository.findAllByIdIsIn(regionsName);
 
-        if (!name.equals("")) {
-            System.out.println(name);
-            return cityRepository.findAllByRegionAndNameIsIn(region, pageable, Arrays.asList(name.split(",")));
+        if (!cityNames.isEmpty()) {
+            return cityRepository.findAllByRegionIsInAndNameIsIn(regions, pageable, cityNames);
         }
 
-        return cityRepository.findAllByRegion(region, pageable);
+        return cityRepository.findAllByRegionIsIn(regions, pageable);
     }
 
     public Optional<City> getCityById(Integer id) {

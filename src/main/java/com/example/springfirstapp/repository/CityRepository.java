@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.Collection;
 
 public interface CityRepository extends PagingAndSortingRepository<City, Integer> {
-    Page<City> findAllByRegion(Region region, Pageable pageable);
+    Page<City> findAllByRegionIsIn(Collection<Region> regions, Pageable pageable);
 
-    Page<City> findAllByRegionAndNameIsIn(Region region, Pageable pageable, Collection<String> name);
+    Page<City> findAllByRegionIsInAndNameIsIn(Collection<Region> regions, Pageable pageable, Collection<String> name);
 }
